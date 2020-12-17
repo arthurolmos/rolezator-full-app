@@ -1,7 +1,6 @@
 import IBlacklist from "../interfaces/IBlacklist";
 import ISuggestion from "../interfaces/ISuggestion";
 import IUserSuggestion from "../interfaces/IUserSuggestion";
-import api from "../api";
 
 const noSuggestion = {
   id: "0",

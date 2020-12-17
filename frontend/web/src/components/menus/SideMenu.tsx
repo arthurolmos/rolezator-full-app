@@ -1,6 +1,5 @@
 import React from "react";
 import UserMenu from "./UserMenu";
-import AdminMenu from "./AdminMenu";
 import { AuthContext } from "../../contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
 import IQuestion from "../../interfaces/IQuestion";
@@ -76,15 +75,7 @@ export default function SideMenu({
             </MenuOptions>
           </MenuContainer>
 
-          {user ? (
-            user.isAdmin ? (
-              <AdminMenu />
-            ) : (
-              <UserMenu />
-            )
-          ) : (
-            <GoogleButton onClick={() => signIn()} />
-          )}
+          {user ? <UserMenu /> : <GoogleButton onClick={() => signIn()} />}
         </ContentContainer>
         <OpenBar onClick={toggleOpen}>MENU</OpenBar>
       </Container>

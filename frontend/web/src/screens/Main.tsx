@@ -1,7 +1,6 @@
 import React from "react";
 import SideMenu from "../components/menus/SideMenu";
 import CrystalBall from "../components/crystalball";
-import SecretLoginButton from "../components/buttons/SecretLoginButton";
 import styled, { keyframes } from "styled-components";
 import { AuthContext } from "../contexts/AuthContext";
 import IUserSuggestion from "../interfaces/IUserSuggestion";
@@ -100,7 +99,6 @@ export default function Main() {
     <Container>
       <ContainerTexture />
       <SideMenu handleQuestion={handleQuestion} />
-      <SecretLoginButton />
 
       <CrystalBall
         active={active}
