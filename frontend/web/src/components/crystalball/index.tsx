@@ -110,41 +110,41 @@ const CrystallBallAura = styled.div<ActiveProps>`
   }
 `;
 
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
+// const rotate = keyframes`
+//   from {
+//     transform: rotate(0deg);
+//   }
 
-  to {
-    transform: rotate(360deg);
-  }
-`;
+//   to {
+//     transform: rotate(360deg);
+//   }
+// `;
 
-const CrystallBallTexture = styled.div`
-  width: 400px;
-  height: auto;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  border-radius: 50%;
-  opacity: 0.5;
-  transition: all 0.8s ease, width 1ms;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(9, 62, 121, 0) 100%
-  );
-  z-index: 8;
-  animation: ${rotate} 6s linear infinite;
-  box-sizing: border-box;
+// const CrystallBallTexture = styled.div`
+//   width: 400px;
+//   height: auto;
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   left: 0;
+//   bottom: 0;
+//   border-radius: 50%;
+//   opacity: 0.5;
+//   transition: all 0.8s ease, width 1ms;
+//   background: linear-gradient(
+//     90deg,
+//     rgba(0, 0, 0, 1) 0%,
+//     rgba(9, 62, 121, 0) 100%
+//   );
+//   z-index: 8;
+//   animation: ${rotate} 6s linear infinite;
+//   box-sizing: border-box;
 
-  @media (max-width: 600px) {
-    width: 300px;
-    opacity: 1;
-  }
-`;
+//   @media (max-width: 600px) {
+//     width: 300px;
+//     opacity: 1;
+//   }
+// `;
 
 const glow = keyframes` {
     from {
