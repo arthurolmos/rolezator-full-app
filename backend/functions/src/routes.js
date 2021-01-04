@@ -1,8 +1,5 @@
 const routes = require("express").Router();
-const multerConfig = require("./config/multer");
-
-const multer = require("multer");
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = require("./middleware/upload");
 
 const AuthController = require("./controllers/AuthController");
 const SuggestionController = require("./controllers/SuggestionController");
@@ -26,7 +23,7 @@ routes.delete("/suggestions/:_id", SuggestionController.destroy);
 
 routes.post(
   "/suggestions/upload",
-  upload.single("file"),
+  // upload,
   UploadController.createSuggestionsFromCsv
 );
 
