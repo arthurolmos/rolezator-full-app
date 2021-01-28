@@ -132,7 +132,7 @@ const Texture = styled.div`
     rgba(9, 62, 121, 0) 100%
   );
   z-index: 8;
-  animation: ${rotate} 6s linear infinite;
+  // animation: ${rotate} 6s linear infinite;
   box-sizing: border-box;
 
   @media (max-width: 600px) {
@@ -143,7 +143,6 @@ const Texture = styled.div`
 
 const glow = keyframes` {
     from {
-      //text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
       text-shadow: 0px -2px 4px #fff, 0px -2px 10px #FF3, 0px -10px 20px         #F90, 0px -20px 40px #C33;
     }
     to {
@@ -157,7 +156,7 @@ const CrystalBallText = styled.div`
   z-index: 8;
   color: white;
   font-size: 32px;
-  animation: ${glow} 5s linear infinite alternate;
+  // animation: ${glow} 5s linear infinite alternate;
   word-wrap: break-word;
   transition: opacity 0.5s ease;
   align-text: center;

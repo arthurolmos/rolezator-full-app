@@ -120,7 +120,7 @@ const Container = styled.div<OpenProps>`
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.3s ease;
+  // transition: width 0.3s ease;
   z-index: 999;
   display: flex;
   box-sizing: border-box;
@@ -138,7 +138,6 @@ const ContentContainer = styled.div`
   overflow-x: hidden;
   background: rgba(0, 0, 0, 0.8);
   align-items: center;
-  // justify-content: center;
 
   position: relative;
 `;
@@ -182,7 +181,7 @@ const glow = keyframes` {
 
 const Title = styled.div`
   font-family: "Mystery Quest", cursive;
-  animation: ${glow} 5s linear infinite alternate;
+  // animation: ${glow} 5s linear infinite alternate;
   color: white;
   box-sizing: border-box;
   font-size: 36px;
@@ -231,7 +230,7 @@ const OptionStyled = styled.div`
   transition: transform 0.5s ease;
   margin-bottom: 20px;
   cursor: pointer;
-  text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
+  // text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
     0px -20px 40px #c33;
   box-sizing: border-box;
 

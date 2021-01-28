@@ -194,7 +194,7 @@ const ContainerTexture = styled.div`
     rgba(9, 62, 121, 0) 100%
   );
   z-index: 8;
-  animation: ${slide} 10s linear infinite;
+  // animation: ${slide} 10s linear infinite;
 
   @media (max-width: 600px) {
     width: 300px;
@@ -221,9 +221,9 @@ const Text = styled.div<ActiveProps>`
   color: white;
   margin: 20px;
   cursor: pointer;
-  transition: text-shadow 0.5s ease;
-  text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
-    0px -20px 40px #c33;
+  // transition: text-shadow 0.5s ease;
+  // text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
+  //   0px -20px 40px #c33;
   font-size: 28px;
   visibility: ${({ active }) => (active ? "visible" : "hidden")};
   opacity: ${({ active }) => (active ? 1 : 0)};
