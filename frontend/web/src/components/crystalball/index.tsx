@@ -1,26 +1,21 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
-import ISuggestion from "../../interfaces/ISuggestion";
-import IQuestion from "../../interfaces/IQuestion";
-import IUserSuggestion from "../../interfaces/IUserSuggestion";
+import { Suggestion, Question, UserSuggestion } from "../../models";
 
 interface ActiveProps {
   active: boolean;
 }
 
-export default function Index({
-  active,
-  action,
-  question,
-  suggestion,
-}: {
+interface Props {
   active: boolean;
   action: () => void;
-  question: IQuestion;
-  suggestion: IUserSuggestion | ISuggestion | null;
-}) {
+  question: Question;
+  suggestion: UserSuggestion | Suggestion | null;
+}
+
+export default function Index({ active, action, question, suggestion }: Props) {
   return (
-    <CrystallBallContainer>
+    <Container>
       <Overlayer
         active={active}
         onClick={() => {
@@ -29,14 +24,14 @@ export default function Index({
           }
         }}
       />
-      <CrystallBallAura active={active} />
-      <CrystalBall src="img/crystal-ball-crop.png" alt="crystal-ball" />
-      {/* <CrystallBallTexture /> */}
+      <Aura active={active} />
+      <Image src="img/crystal-ball-crop.png" alt="crystal-ball" />
+      <Texture />
       <QuestionText active={active}>{question && question.text}</QuestionText>
       <SuggestionText active={active}>
         {suggestion && suggestion.name}
       </SuggestionText>
-    </CrystallBallContainer>
+    </Container>
   );
 }
 
@@ -62,7 +57,7 @@ const Overlayer = styled(NoSelectContainer)<ActiveProps>`
   box-sizing: border-box;
 `;
 
-const CrystallBallContainer = styled(NoSelectContainer)`
+const Container = styled(NoSelectContainer)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,7 +67,7 @@ const CrystallBallContainer = styled(NoSelectContainer)`
   margin: auto;
 `;
 
-const CrystalBall = styled.img`
+const Image = styled.img`
   width: 400px;
   height: auto;
   z-index: 7;
@@ -84,7 +79,7 @@ const CrystalBall = styled.img`
   }
 `;
 
-const CrystallBallAura = styled.div<ActiveProps>`
+const Aura = styled.div<ActiveProps>`
   width: 400px;
   height: auto;
   position: absolute;
@@ -100,7 +95,7 @@ const CrystallBallAura = styled.div<ActiveProps>`
   transition: all 0.8s ease, width 1ms;
   z-index: 6;
 
-  ${CrystallBallContainer}:hover & {
+  ${Container}:hover & {
     opacity: 1;
   }
 
@@ -110,41 +105,41 @@ const CrystallBallAura = styled.div<ActiveProps>`
   }
 `;
 
-// const rotate = keyframes`
-//   from {
-//     transform: rotate(0deg);
-//   }
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
 
-//   to {
-//     transform: rotate(360deg);
-//   }
-// `;
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
-// const CrystallBallTexture = styled.div`
-//   width: 400px;
-//   height: auto;
-//   position: absolute;
-//   top: 0;
-//   right: 0;
-//   left: 0;
-//   bottom: 0;
-//   border-radius: 50%;
-//   opacity: 0.5;
-//   transition: all 0.8s ease, width 1ms;
-//   background: linear-gradient(
-//     90deg,
-//     rgba(0, 0, 0, 1) 0%,
-//     rgba(9, 62, 121, 0) 100%
-//   );
-//   z-index: 8;
-//   animation: ${rotate} 6s linear infinite;
-//   box-sizing: border-box;
+const Texture = styled.div`
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 50%;
+  opacity: 0.5;
+  transition: all 0.8s ease, width 1ms;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(9, 62, 121, 0) 100%
+  );
+  z-index: 8;
+  animation: ${rotate} 6s linear infinite;
+  box-sizing: border-box;
 
-//   @media (max-width: 600px) {
-//     width: 300px;
-//     opacity: 1;
-//   }
-// `;
+  @media (max-width: 600px) {
+    width: 300px;
+    opacity: 1;
+  }
+`;
 
 const glow = keyframes` {
     from {

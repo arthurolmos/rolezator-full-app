@@ -1,17 +1,8 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+const { functions } = require("./src/config/initialize-firebase");
+const app = require("./src/config/app");
+const { addDeleteListener } = require("./src/functions");
 
-const serviceAccount = require("./keys/admin-sdk-key.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://rolezator-app.firebaseio.com",
-});
-
-const app = require("express")();
-const cors = require("cors");
-const routes = require("./src/routes");
-
-app.use(cors({ origin: true }));
-app.use(routes);
+const listeners = addDeleteListener(["/suggestions", "/users"]);
 
 exports.api = functions.https.onRequest(app);
+exports.listener = listeners;

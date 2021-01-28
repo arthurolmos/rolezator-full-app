@@ -3,51 +3,49 @@ import SideMenu from "../components/menus/SideMenu";
 import CrystalBall from "../components/crystalball";
 import styled, { keyframes } from "styled-components";
 import { AuthContext } from "../contexts/AuthContext";
-import IUserSuggestion from "../interfaces/IUserSuggestion";
-import IQuestion from "../interfaces/IQuestion";
-import ISuggestion from "../interfaces/ISuggestion";
 import {
-  getRandomSuggestion,
-  getRandomUserSuggestion,
-} from "../repositories/suggestionsRepo";
-import { addToUserBlacklist } from "../repositories/userRepo";
-import api from "../api";
+  Question,
+  DefaultSuggestion,
+  UserSuggestion,
+  Suggestion,
+  Blacklist,
+} from "../models";
+import { UserController } from "../controllers/User";
+import { SuggestionController } from "../controllers/Suggestion";
 
 interface ActiveProps {
   active: boolean;
 }
-
-const defaulQuestion = {
-  text: "O qUe Vou faZeR HoJE??",
-  category: "any",
-};
 
 export default function Main() {
   const { user, userBlacklist, userSuggestions } = React.useContext(
     AuthContext
   );
 
+  const defaulQuestion: Question = {
+    text: "O qUe Vou faZeR HoJE??",
+    category: "any",
+  };
+
+  const [active, setActive] = React.useState(false);
+
+  const [question, setQuestion] = React.useState(defaulQuestion);
   const [allSuggestions, setAllSuggestions] = React.useState<
-    Array<ISuggestion>
+    Array<DefaultSuggestion>
   >([]);
-  const [active, setActive] = React.useState<boolean>(false);
-  const [question, setQuestion] = React.useState<IQuestion>(defaulQuestion);
   const [suggestion, setSuggestion] = React.useState<
-    IUserSuggestion | ISuggestion | null
+    UserSuggestion | DefaultSuggestion | Suggestion | null
   >(null);
 
-  // const [latitude, setLatitude] = React.useState<number>(0);
-  // const [longitude, setLongitude] = React.useState<number>(0);
-
-  function getUserSuggestion() {
-    const resp = getRandomUserSuggestion(userSuggestions);
+  function getUserSuggestion(): void {
+    const resp = SuggestionController.getRandomUserSuggestion(userSuggestions);
 
     setSuggestion(resp);
     setActive(true);
   }
 
-  function getSuggestion() {
-    const resp = getRandomSuggestion(
+  function getSuggestion(): void {
+    const resp = SuggestionController.getRandomSuggestion(
       allSuggestions,
       userBlacklist,
       question.category
@@ -57,39 +55,58 @@ export default function Main() {
     setActive(true);
   }
 
-  function handleQuestion(question: IQuestion) {
+  function handleQuestion(question: Question) {
     setQuestion(question);
     setActive(false);
   }
 
   async function handleAddToBlacklist() {
-    await addToUserBlacklist(suggestion);
+    await UserController.addToUserBlacklist(suggestion as Blacklist, user.uid);
 
     setActive(false);
   }
 
   function selectAction() {
-    return question.category === "user-suggestions"
+    return question.category === "user-suggestion"
       ? getUserSuggestion()
       : getSuggestion();
   }
 
-  // React.useEffect(() => {
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.watchPosition(function (position) {
-  //       setLatitude(position.coords.latitude);
-  //       setLongitude(position.coords.longitude);
-  //     });
-  //   } else {
-  //     console.log("Not Available");
-  //   }
-  // });
+  function UserSuggestionText({ suggestion }: { suggestion: UserSuggestion }) {
+    return (
+      <Text active={active}>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${suggestion.coordinates.lat},${suggestion.coordinates.lng}&query_place_id=${suggestion.id}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Ir para {suggestion.name}!
+        </a>
+      </Text>
+    );
+  }
+
+  function SuggestionURL({ suggestion }: { suggestion: DefaultSuggestion }) {
+    const url = suggestion.name.split(" ").join("+");
+
+    return (
+      <Text active={active}>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${url}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Descubra {suggestion.plural} próximos da sua área!
+        </a>
+      </Text>
+    );
+  }
 
   React.useEffect(() => {
     async function getAllSuggestions() {
-      const resp = await api.get("/suggestions");
+      const suggestions = await SuggestionController.getAllSuggestions();
 
-      setAllSuggestions(resp.data);
+      if (suggestions) setAllSuggestions(suggestions);
     }
 
     getAllSuggestions();
@@ -108,43 +125,16 @@ export default function Main() {
       />
 
       <TextContainer>
-        {question.category === "user-suggestions" && suggestion && (
-          <Text active={active}>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${
-                "coordinates" in suggestion &&
-                suggestion.coordinates &&
-                suggestion.coordinates.lat
-              },${
-                "coordinates" in suggestion &&
-                suggestion.coordinates &&
-                suggestion.coordinates.lng
-              }&query_place_id=${
-                "placeId" in suggestion && suggestion.placeId
-              }`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Ir para {suggestion.name}!
-            </a>
-          </Text>
+        {question.category === "user-suggestion" && (
+          <UserSuggestionText suggestion={suggestion as UserSuggestion} />
         )}
-        {suggestion && "url" in suggestion && (
-          <Text active={active}>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${suggestion.url}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Descubra {suggestion && suggestion.pronoum === "M" ? "um" : "uma"}{" "}
-              {suggestion.name} próximo da sua área!
-            </a>
-          </Text>
+        {suggestion && "hasURL" in suggestion && suggestion.hasURL === true && (
+          <SuggestionURL suggestion={suggestion as DefaultSuggestion} />
         )}
         <Text onClick={() => setActive(false)} active={active}>
           TeNTar noVamENte?
         </Text>
-        {user && suggestion && "url" in suggestion && (
+        {user && suggestion && (
           <Text onClick={() => handleAddToBlacklist()} active={active}>
             JaMais! AdicIoNar a BlacKLisT!
           </Text>

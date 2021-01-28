@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
-import IBlacklist from "../../interfaces/IBlacklist";
-import { removeFromUserBlacklist } from "../../repositories/userRepo";
+import { Blacklist } from "../../models";
+// import { UserController } from "../../repositories/user";
 
-export default function BlacklistItem({ item }: { item: IBlacklist }) {
+export default function BlacklistItem({ item }: { item: Blacklist }) {
   return (
     <Container>
       <Title>{item.name}</Title>
       <CloseButton>
-        <FaTimesStyled onClick={() => removeFromUserBlacklist(item.id)} />
+        {/* <FaTimesStyled onClick={() => UserController.removeFromUserBlacklist(item.id)} /> */}
       </CloseButton>
     </Container>
   );

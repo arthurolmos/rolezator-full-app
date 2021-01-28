@@ -5,15 +5,15 @@ import styled from "styled-components";
 import { AuthContext } from "../../contexts/AuthContext";
 import { FaPlus } from "react-icons/fa";
 import LocationSearchInput from "../inputs/LocationSearchInput";
-import IUserSuggestion from "../../interfaces/IUserSuggestion";
-import { addToUserSuggestions } from "../../repositories/userRepo";
+import { UserSuggestion } from "../../models";
+import { UserController } from "../../controllers/User";
 
 interface Coordinates {
   lat: number;
   lng: number;
 }
 
-interface ISelection {
+interface Selection {
   description: string;
   coordinates: {
     lat: number;
@@ -27,11 +27,13 @@ interface ModalProps {
   closeModal: () => void;
 }
 
-export default function BlacklistModal({ open, closeModal }: ModalProps) {
-  const { userSuggestions } = React.useContext(AuthContext);
+export default function SuggestionsModal({ open, closeModal }: ModalProps) {
+  const { user, userSuggestions } = React.useContext(AuthContext);
 
   const [address, setAddress] = React.useState<string>("");
-  const [selection, setSelection] = React.useState<ISelection | null>(null);
+  const [selection, setSelection] = React.useState<Selection | null>(null);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   function handleSetSelection(
     address: string,
@@ -44,14 +46,25 @@ export default function BlacklistModal({ open, closeModal }: ModalProps) {
       coordinates,
     };
 
+    setAddress(selection.description);
     setSelection(selection);
   }
 
-  function handleAddSuggestion() {
+  async function handleAddSuggestion() {
     if (selection) {
-      addToUserSuggestions(selection);
+      setLoading(true);
+
+      const suggestion = new UserSuggestion(
+        selection.placeId,
+        selection.description,
+        selection.coordinates
+      );
+
+      await UserController.addToUserSuggestions(suggestion, user.uid);
       setAddress("");
       setSelection(null);
+
+      setLoading(false);
     }
   }
 
@@ -72,12 +85,18 @@ export default function BlacklistModal({ open, closeModal }: ModalProps) {
           />
           <ButtonContainer>
             <Button onClick={() => handleAddSuggestion()}>
-              <FaPlusStyled /> Adicionar
+              {loading ? (
+                <div>Loading...</div>
+              ) : (
+                <>
+                  <FaPlusStyled /> Adicionar
+                </>
+              )}
             </Button>
           </ButtonContainer>
         </InputContainer>
         <ContentContainer>
-          {userSuggestions.map((item: IUserSuggestion, index: number) => {
+          {userSuggestions.map((item: UserSuggestion, index: number) => {
             return <SuggestionItem item={item} key={index} />;
           })}
         </ContentContainer>

@@ -3,7 +3,7 @@ import ModalLayout from "./ModalLayout";
 import BlacklistItem from "../listItems/BlacklistItem";
 import styled from "styled-components";
 import { AuthContext } from "../../contexts/AuthContext";
-import IBlacklist from "../../interfaces/IBlacklist";
+import { Blacklist } from "../../models";
 
 interface ModalProps {
   open: boolean;
@@ -18,7 +18,7 @@ export default function BlacklistModal({ open, closeModal }: ModalProps) {
       <>
         <Description>"Lugares que não vou nem a pau!"</Description>
         <ContentContainer>
-          {userBlacklist.map((item: IBlacklist, index: number) => {
+          {userBlacklist.map((item: Blacklist, index: number) => {
             return <BlacklistItem item={item} key={index} />;
           })}
         </ContentContainer>

@@ -38,9 +38,9 @@ export default function EditContainer(props: Props) {
               </IconStyled>
             </Link>
           </Return>
+          <Title>{title}</Title>
         </ButtonsContainer>
 
-        <Title>{title}</Title>
         <ContentContainer>
           {loading ? (
             <LoadingContainer>
@@ -76,6 +76,7 @@ const LoadingContainer = styled.div`
 
 const Title = styled.h1`
   box-sizing: border-box;
+  flex: 2;
 `;
 
 const ButtonsContainer = styled.div`
@@ -89,6 +90,7 @@ const Return = styled.div`
   display: flex;
   flex: 1;
   box-sizing: border-box;
+  align-items: center;
 `;
 
 const IconStyled = styled.div`

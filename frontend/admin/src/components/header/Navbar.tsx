@@ -6,14 +6,14 @@ import styled from "styled-components";
 interface Props {}
 
 export default function Navbar() {
-  const { adminSignOut } = React.useContext(AuthContext);
+  const { signOut } = React.useContext(AuthContext);
 
   const history = useHistory();
 
   function handleSignOut() {
-    adminSignOut();
+    signOut();
 
-    history.replace("/admin/login");
+    history.replace("/login");
   }
 
   return (

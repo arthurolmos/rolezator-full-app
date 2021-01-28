@@ -29,6 +29,9 @@ export default function TableContainer(props: Props) {
               </IconStyled>
             </Link>
           </Return>
+
+          <Title>{title}</Title>
+
           <ActionButtonsContainer>
             <Link to={addURL}>
               <IconStyled>
@@ -38,7 +41,6 @@ export default function TableContainer(props: Props) {
           </ActionButtonsContainer>
         </ButtonsContainer>
 
-        <Title>{title}</Title>
         <ContentContainer>
           {" "}
           {loading ? <CircularProgress /> : children}
@@ -71,6 +73,7 @@ const ButtonsContainer = styled.div`
 const Return = styled.div`
   display: flex;
   flex: 1;
+  align-items: center;
   box-sizing: border-box;
 `;
 
@@ -79,6 +82,7 @@ const ActionButtonsContainer = styled.div`
   flex: 1;
   box-sizing: border-box;
   justify-content: flex-end;
+  align-items: center;
 `;
 
 const IconStyled = styled.div`

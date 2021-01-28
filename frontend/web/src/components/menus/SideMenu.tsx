@@ -2,24 +2,20 @@ import React from "react";
 import UserMenu from "./UserMenu";
 import { AuthContext } from "../../contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
-import IQuestion from "../../interfaces/IQuestion";
+import { Question } from "../../models";
 
-const commonQuestions = [
+const commonQuestions: Question[] = [
+  {
+    text: "O que vou fazer hoje?",
+    category: "any",
+  },
   {
     text: "O que vou comer hoje?",
     category: "eat",
   },
   {
-    text: "Para onde vou sair hoje?",
-    category: "places",
-  },
-  {
-    text: "O que fazer hoje?",
+    text: "Para onde irei hoje?",
     category: "action",
-  },
-  {
-    text: "Qualquer coisa, tanto faz...",
-    category: "any",
   },
 ];
 
@@ -30,14 +26,14 @@ interface OpenProps {
 export default function SideMenu({
   handleQuestion,
 }: {
-  handleQuestion: (question: IQuestion) => void;
+  handleQuestion: (question: Question) => void;
 }) {
   const { user, signIn } = React.useContext(AuthContext);
 
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState(false);
   const toggleOpen = () => setOpen(!open);
 
-  function handleOption(question: IQuestion) {
+  function handleOption(question: Question) {
     handleQuestion(question);
     setOpen(false);
   }
@@ -58,7 +54,7 @@ export default function SideMenu({
                   onClick={() =>
                     handleOption({
                       text: "Usar minhas sugestões!",
-                      category: "user-suggestions",
+                      category: "user-suggestion",
                     })
                   }
                 >
@@ -124,7 +120,7 @@ const Container = styled.div<OpenProps>`
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.3s linear;
+  transition: width 0.3s ease;
   z-index: 999;
   display: flex;
   box-sizing: border-box;

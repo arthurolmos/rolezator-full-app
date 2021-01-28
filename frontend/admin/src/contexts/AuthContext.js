@@ -31,7 +31,10 @@ export function AuthProvider({ children }) {
 
     const unsubscribe = auth.onAuthStateChanged(function (user) {
       if (user) {
+        console.log("USER", user);
         user.getIdTokenResult().then((idTokenResult) => {
+          console.log("idTokenResult", idTokenResult);
+
           if (!!idTokenResult.claims.admin) {
             setAdmin(user);
           }

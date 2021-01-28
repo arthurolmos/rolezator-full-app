@@ -1,12 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
-import IUserSuggestion from "../../interfaces/IUserSuggestion";
-import { removeFromUserSuggestions } from "../../repositories/userRepo";
+import { UserSuggestion } from "../../models";
+import { repo } from "../../repositories/user";
+import { AuthContext } from "../../contexts/AuthContext";
 
-export default function SuggestionItem({ item }: { item: IUserSuggestion }) {
+export default function SuggestionItem({ item }: { item: UserSuggestion }) {
+  const { user } = React.useContext(AuthContext);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   const openGoogleMapsURL = () => {
-    const placeId = item.placeId;
+    const placeId = item.id;
     const lat = item.coordinates && item.coordinates.lat;
     const lng = item.coordinates && item.coordinates.lng;
     const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${placeId}`;
@@ -15,11 +20,28 @@ export default function SuggestionItem({ item }: { item: IUserSuggestion }) {
     win && win.focus();
   };
 
+  async function handleRemove() {
+    try {
+      setLoading(true);
+
+      await repo.removeFromUserSuggestions(item.id, user.uid);
+
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  }
+
   return (
     <Container>
       <Title onClick={openGoogleMapsURL}>{item.name}</Title>
       <CloseButton>
-        <FaTimesStyled onClick={() => removeFromUserSuggestions(item.id)} />
+        {loading ? (
+          <div>loading....</div>
+        ) : (
+          <FaTimesStyled onClick={() => handleRemove()} />
+        )}
       </CloseButton>
     </Container>
   );
