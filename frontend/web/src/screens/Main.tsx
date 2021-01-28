@@ -162,13 +162,16 @@ const Container = styled.div`
   height: 100vh;
   background: black;
   box-sizing: border-box;
-  background-image: url("/img/universe-darker-3.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-
   overflow: hidden;
+
+  background-image: url("/img/universe-darker-3.jpg");
+  @media (max-width: 360px) {
+    background-image: url("/img/universe-darker-3-small.jpg");
+  }
 `;
 
 const slide = keyframes`
@@ -191,7 +194,7 @@ const ContainerTexture = styled.div`
     rgba(9, 62, 121, 0) 100%
   );
   z-index: 8;
-  // animation: ${slide} 10s linear infinite;
+  animation: ${slide} 10s linear infinite;
 
   @media (max-width: 600px) {
     width: 300px;
