@@ -170,6 +170,10 @@ const CrystalBallText = styled.div`
   @media (max-width: 600px) {
     font-size: 24px;
   }
+
+  @media (max-width: 360px) {
+    animation: none;
+  }
 `;
 
 const QuestionText = styled(CrystalBallText)<ActiveProps>`
