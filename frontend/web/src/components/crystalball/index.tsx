@@ -172,6 +172,8 @@ const CrystalBallText = styled.div`
 
   @media screen and (min-width: 600px) {
     animation: ${glow} 5s linear infinite alternate;
+    text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
+      0px -20px 40px #c33;
   }
 `;
 
