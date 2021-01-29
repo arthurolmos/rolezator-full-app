@@ -121,7 +121,7 @@ const Container = styled.div<OpenProps>`
   top: 0;
   left: 0;
   transition: width 0.3s ease;
-  z-index: 999;
+  z-index: 999999;
   display: flex;
   box-sizing: border-box;
   @media (max-width: 600px) {
@@ -136,7 +136,8 @@ const ContentContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   overflow-x: hidden;
-  background: rgba(0, 0, 0, 0.8);
+  background: black;
+  // background: rgba(0, 0, 0, 0.8);
   align-items: center;
 
   position: relative;
