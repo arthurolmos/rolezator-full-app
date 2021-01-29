@@ -120,7 +120,7 @@ const Container = styled.div<OpenProps>`
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.3s ease;
+  transition: width 0.1s ease;
   z-index: 999999;
   display: flex;
   box-sizing: border-box;
@@ -136,8 +136,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   overflow-x: hidden;
-  background: black;
-  // background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   align-items: center;
 
   position: relative;
