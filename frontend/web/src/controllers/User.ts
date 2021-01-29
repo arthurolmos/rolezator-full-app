@@ -1,5 +1,5 @@
 import { repo } from "../repositories/user";
-import { Blacklist, User, UserSuggestion } from "../models";
+import { Blacklist, UserSuggestion } from "../models";
 
 export const UserController = {
   async addToUserBlacklist(blacklistItem: Blacklist, userId: string) {
