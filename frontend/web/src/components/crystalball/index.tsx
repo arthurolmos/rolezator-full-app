@@ -156,7 +156,6 @@ const CrystalBallText = styled.div`
   z-index: 8;
   color: white;
   font-size: 32px;
-  animation: ${glow} 5s linear infinite alternate;
   word-wrap: break-word;
   transition: opacity 0.5s ease;
   align-text: center;
@@ -171,8 +170,8 @@ const CrystalBallText = styled.div`
     font-size: 24px;
   }
 
-  @media (max-width: 360px) {
-    animation: none;
+  @media screen {
+    animation: ${glow} 5s linear infinite alternate;
   }
 `;
 
