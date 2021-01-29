@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import { UserSuggestion } from "../../models";
-import { repo } from "../../repositories/user";
+import { UserController } from "../../controllers";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function SuggestionItem({ item }: { item: UserSuggestion }) {
@@ -24,7 +24,7 @@ export default function SuggestionItem({ item }: { item: UserSuggestion }) {
     try {
       setLoading(true);
 
-      await repo.removeFromUserSuggestions(item.id, user.uid);
+      await UserController.removeFromUserSuggestions(item, user.uid);
 
       setLoading(false);
     } catch (err) {

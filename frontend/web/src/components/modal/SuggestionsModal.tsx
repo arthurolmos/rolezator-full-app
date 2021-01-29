@@ -6,7 +6,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { FaPlus } from "react-icons/fa";
 import LocationSearchInput from "../inputs/LocationSearchInput";
 import { UserSuggestion } from "../../models";
-import { UserController } from "../../controllers/User";
+import { UserController } from "../../controllers";
 
 interface Coordinates {
   lat: number;

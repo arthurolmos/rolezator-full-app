@@ -10,8 +10,7 @@ import {
   Suggestion,
   Blacklist,
 } from "../models";
-import { UserController } from "../controllers/User";
-import { SuggestionController } from "../controllers/Suggestion";
+import { UserController, SuggestionController } from "../controllers";
 
 interface ActiveProps {
   active: boolean;
