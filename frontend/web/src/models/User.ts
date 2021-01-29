@@ -1,5 +1,3 @@
-import { repo } from "../repositories/user";
-
 export class User {
   private _blacklist: Set<string>;
 
