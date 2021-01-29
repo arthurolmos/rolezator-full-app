@@ -170,7 +170,7 @@ const CrystalBallText = styled.div`
     font-size: 24px;
   }
 
-  @media screen {
+  @media screen and (min-width: 600px) {
     animation: ${glow} 5s linear infinite alternate;
   }
 `;

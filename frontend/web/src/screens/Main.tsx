@@ -236,7 +236,7 @@ const Text = styled.div<ActiveProps>`
     font-size: 20px;
   }
 
-  @media screen {
+  @media screen and (min-width: 600px) {
     &:hover {
       text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
         0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
