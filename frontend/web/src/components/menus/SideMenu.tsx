@@ -184,8 +184,6 @@ const Title = styled.div`
   color: white;
   box-sizing: border-box;
   font-size: 36px;
-  text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6,
-    0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
 
   @media (max-width: 600px) {
     font-size: 30px;
@@ -232,11 +230,11 @@ const Option = styled.div`
 
 const OptionStyled = styled.div`
   white-space: nowrap;
-  transition: transform 0.5s ease;
+  // transition: transform 0.5s ease;
   margin-bottom: 20px;
   cursor: pointer;
-  text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
-    0px -20px 40px #c33;
+  // text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
+  //   0px -20px 40px #c33;
   box-sizing: border-box;
 
   &:hover {
