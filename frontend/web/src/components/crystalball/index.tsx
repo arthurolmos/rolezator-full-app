@@ -92,7 +92,7 @@ const Aura = styled.div<ActiveProps>`
   box-shadow:  ${({ active }) =>
     active ? "0 0 10px 10px purple;" : "0 0 10px 10px white;"}
   opacity: ${({ active }) => (active ? 1 : 0)};
-  // transition: all 0.8s ease, width 1ms;
+  transition: all 0.8s ease, width 1ms;
   z-index: 6;
 
   ${Container}:hover & {
@@ -156,7 +156,7 @@ const CrystalBallText = styled.div`
   z-index: 8;
   color: white;
   font-size: 32px;
-  // animation: ${glow} 5s linear infinite alternate;
+  animation: ${glow} 5s linear infinite alternate;
   word-wrap: break-word;
   transition: opacity 0.5s ease;
   align-text: center;
