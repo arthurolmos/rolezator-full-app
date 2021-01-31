@@ -24,22 +24,25 @@ export default function LocationSearchInput({
   handleSetSelection,
 }: InputProps) {
   const selectAddress = async (
-    selection: string,
-    placeID: string,
-    object: any
+    address: string,
+    placeId: string,
+    suggestion?: {
+      formattedSuggestion: any;
+    }
   ) => {
     try {
       //Selection is the NAME + ADDRESS of the place
       //Name is the NAME of the place
-      setAddress(selection);
+      setAddress(address);
+      console.log(placeId);
+      console.log(suggestion);
 
       const results = await geocodeByAddress(address);
-
-      const name = object.formattedSuggestion.mainText;
-      const placeId = results[0].place_id;
       const latLng = await getLatLng(results[0]);
 
-      return handleSetSelection(placeId, name, selection, latLng);
+      const name = suggestion ? suggestion.formattedSuggestion.mainText : "";
+
+      return handleSetSelection(placeId, name, address, latLng);
     } catch (error) {
       console.error("Error", error);
     }
