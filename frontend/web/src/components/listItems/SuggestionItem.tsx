@@ -4,6 +4,8 @@ import { FaTimes } from "react-icons/fa";
 import { UserSuggestion } from "../../models";
 import { UserController } from "../../controllers";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Dots } from "react-activity";
+import "react-activity/dist/react-activity.css";
 
 export default function SuggestionItem({ item }: { item: UserSuggestion }) {
   const { user } = React.useContext(AuthContext);
@@ -35,10 +37,13 @@ export default function SuggestionItem({ item }: { item: UserSuggestion }) {
 
   return (
     <Container>
-      <Title onClick={openGoogleMapsURL}>{item.name}</Title>
+      <Info onClick={openGoogleMapsURL}>
+        <Title>{item.name}</Title>
+        <Address>{item.address}</Address>
+      </Info>
       <CloseButton>
         {loading ? (
-          <div>loading....</div>
+          <Dots color="white" />
         ) : (
           <FaTimesStyled onClick={() => handleRemove()} />
         )}
@@ -56,14 +61,30 @@ const Container = styled.div`
   padding: 5px;
 `;
 
-const Title = styled.div`
+const Info = styled.div`
   display: flex;
   flex: 2;
   box-sizing: border-box;
-  text-transform: uppercase;
   cursor: pointer;
+  flex-direction: column;
+`;
 
-  &:hover {
+const Title = styled.p`
+  box-sizing: border-box;
+  text-transform: uppercase;
+  margin: 0;
+
+  ${Info}:hover & {
+    opacity: 0.8;
+  }
+`;
+
+const Address = styled.p`
+  box-sizing: border-box;
+  text-transform: uppercase;
+  font-size: 12px;
+
+  ${Info}:hover & {
     opacity: 0.8;
   }
 `;

@@ -39,7 +39,7 @@ export const SuggestionController = {
   },
 
   getRandomSuggestion(
-    suggestions: Array<DefaultSuggestion>,
+    suggestions: (DefaultSuggestion | UserSuggestion)[],
     userBlacklist: Array<Blacklist>,
     category: string
   ) {

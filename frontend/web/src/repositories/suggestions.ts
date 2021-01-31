@@ -57,10 +57,36 @@ export const repo = {
   },
 
   async getOnlyEatSuggestions() {
-    return await api.get("/suggestions", { params: { category: "eat" } });
+    const resp = await api.get("/suggestions", {
+      params: { category: "eat" },
+    });
+
+    return resp.data;
   },
 
   getRandomSuggestion(
+    suggestions: (DefaultSuggestion | UserSuggestion)[],
+    userBlacklist: Array<Blacklist>,
+    category: string
+  ): DefaultSuggestion | UserSuggestion | Suggestion {
+    let items = [...suggestions];
+    let resp: Suggestion | DefaultSuggestion | UserSuggestion = noSuggestion;
+
+    if (userBlacklist.length > 0 && category !== "user-suggestion") {
+      items = this.filterBlacklist(items as DefaultSuggestion[], userBlacklist);
+    }
+
+    if (items.length > 0) {
+      const index = Math.floor(Math.random() * items.length);
+      const item = items[index];
+
+      resp = item;
+    }
+
+    return resp;
+  },
+
+  getRandomSuggestion_OLD(
     suggestions: Array<DefaultSuggestion>,
     userBlacklist: Array<Blacklist>,
     category: string

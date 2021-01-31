@@ -8,7 +8,7 @@ const baseRef = db.collection("suggestions");
 module.exports = {
   index: (query = "") => {
     if (query !== "") {
-      const ref = baseRef.where("category", "==", query);
+      const ref = baseRef.where("categories", "array-contains", query);
 
       return dao.getCollection(ref);
     } else {

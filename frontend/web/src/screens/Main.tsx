@@ -8,7 +8,6 @@ import {
   DefaultSuggestion,
   UserSuggestion,
   Suggestion,
-  Blacklist,
 } from "../models";
 import { UserController, SuggestionController } from "../controllers";
 
@@ -27,27 +26,43 @@ export default function Main() {
   };
 
   const [active, setActive] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   const [question, setQuestion] = React.useState(defaulQuestion);
   const [allSuggestions, setAllSuggestions] = React.useState<
+    Array<DefaultSuggestion>
+  >([]);
+  const [eatSuggestions, setEatSuggestions] = React.useState<
+    Array<DefaultSuggestion>
+  >([]);
+  const [actionSuggestions, setActionSuggestions] = React.useState<
     Array<DefaultSuggestion>
   >([]);
   const [suggestion, setSuggestion] = React.useState<
     UserSuggestion | DefaultSuggestion | Suggestion | null
   >(null);
 
-  function getUserSuggestion(): void {
-    const resp = SuggestionController.getRandomUserSuggestion(userSuggestions);
+  function getSuggestionsByCategory(
+    category: string
+  ): (DefaultSuggestion | UserSuggestion)[] {
+    let suggestions = allSuggestions;
+    console.log(category, suggestions);
 
-    setSuggestion(resp);
-    setActive(true);
+    if (category === "action") suggestions = actionSuggestions;
+    if (category === "eat") suggestions = eatSuggestions;
+    if (category === "user-suggestion") suggestions = userSuggestions;
+
+    return suggestions;
   }
 
   function getSuggestion(): void {
+    const category = question.category;
+    const suggestions = getSuggestionsByCategory(category);
+
     const resp = SuggestionController.getRandomSuggestion(
-      allSuggestions,
+      suggestions,
       userBlacklist,
-      question.category
+      category
     );
 
     setSuggestion(resp);
@@ -60,32 +75,37 @@ export default function Main() {
   }
 
   async function handleAddToBlacklist() {
-    await UserController.addToUserBlacklist(suggestion as Blacklist, user.uid);
+    await UserController.addToUserBlacklist(
+      suggestion as DefaultSuggestion,
+      user.uid
+    );
 
     setActive(false);
   }
 
-  function selectAction() {
-    return question.category === "user-suggestion"
-      ? getUserSuggestion()
-      : getSuggestion();
-  }
-
-  function UserSuggestionText({ suggestion }: { suggestion: UserSuggestion }) {
+  const UserSuggestionText = ({
+    suggestion,
+  }: {
+    suggestion: UserSuggestion;
+  }) => {
     return (
       <Text active={active}>
         <a
-          href={`https://www.google.com/maps/search/?api=1&query=${suggestion.coordinates.lat},${suggestion.coordinates.lng}&query_place_id=${suggestion.id}`}
+          href={`https://www.google.com/maps/search/?api=1&query=${
+            suggestion && suggestion.coordinates && suggestion.coordinates.lat
+          },${
+            suggestion && suggestion.coordinates && suggestion.coordinates.lng
+          }&query_place_id=${suggestion && suggestion.id}`}
           target="_blank"
           rel="noreferrer"
         >
-          Ir para {suggestion.name}!
+          Ir para {suggestion && suggestion.name}!
         </a>
       </Text>
     );
-  }
+  };
 
-  function SuggestionURL({ suggestion }: { suggestion: DefaultSuggestion }) {
+  const SuggestionURL = ({ suggestion }: { suggestion: DefaultSuggestion }) => {
     const url = suggestion.name.split(" ").join("+");
 
     return (
@@ -99,16 +119,35 @@ export default function Main() {
         </a>
       </Text>
     );
-  }
+  };
 
   React.useEffect(() => {
     async function getAllSuggestions() {
-      const suggestions = await SuggestionController.getAllSuggestions();
+      setLoading(true);
 
+      const suggestions = await SuggestionController.getAllSuggestions();
       if (suggestions) setAllSuggestions(suggestions);
+
+      setLoading(false);
     }
 
-    getAllSuggestions();
+    async function getEatSuggestion() {
+      const suggestions = await SuggestionController.getOnlyEatSuggestions();
+      if (suggestions) setEatSuggestions(suggestions);
+    }
+
+    async function getActionSuggestion() {
+      const suggestions = await SuggestionController.getOnlyActionSuggestions();
+      if (suggestions) setActionSuggestions(suggestions);
+    }
+
+    function load() {
+      getAllSuggestions();
+      getEatSuggestion();
+      getActionSuggestion();
+    }
+
+    load();
   }, []);
 
   return (
@@ -118,9 +157,10 @@ export default function Main() {
 
       <CrystalBall
         active={active}
-        action={selectAction}
+        action={getSuggestion}
         suggestion={suggestion}
         question={question}
+        loading={loading}
       />
 
       <TextContainer>
@@ -133,7 +173,7 @@ export default function Main() {
         <Text onClick={() => setActive(false)} active={active}>
           TeNTar noVamENte?
         </Text>
-        {user && suggestion && (
+        {user && suggestion && question.category !== "user-suggestion" && (
           <Text onClick={() => handleAddToBlacklist()} active={active}>
             JaMais! AdicIoNar a BlacKLisT!
           </Text>

@@ -7,6 +7,8 @@ import { FaPlus } from "react-icons/fa";
 import LocationSearchInput from "../inputs/LocationSearchInput";
 import { UserSuggestion } from "../../models";
 import { UserController } from "../../controllers";
+import { Dots } from "react-activity";
+import "react-activity/dist/react-activity.css";
 
 interface Coordinates {
   lat: number;
@@ -14,12 +16,13 @@ interface Coordinates {
 }
 
 interface Selection {
-  description: string;
+  address: string;
   coordinates: {
     lat: number;
     lng: number;
   };
   placeId: string;
+  name: string;
 }
 
 interface ModalProps {
@@ -36,17 +39,19 @@ export default function SuggestionsModal({ open, closeModal }: ModalProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   function handleSetSelection(
-    address: string,
     placeId: string,
+    name: string,
+    address: string,
     coordinates: Coordinates
   ) {
     const selection = {
       placeId,
-      description: address,
+      name,
+      address: address,
       coordinates,
     };
 
-    setAddress(selection.description);
+    setAddress(address);
     setSelection(selection);
   }
 
@@ -56,7 +61,8 @@ export default function SuggestionsModal({ open, closeModal }: ModalProps) {
 
       const suggestion = new UserSuggestion(
         selection.placeId,
-        selection.description,
+        selection.name,
+        selection.address,
         selection.coordinates
       );
 
@@ -86,7 +92,7 @@ export default function SuggestionsModal({ open, closeModal }: ModalProps) {
           <ButtonContainer>
             <Button onClick={() => handleAddSuggestion()}>
               {loading ? (
-                <div>Loading...</div>
+                <Dots color="white" />
               ) : (
                 <>
                   <FaPlusStyled /> Adicionar

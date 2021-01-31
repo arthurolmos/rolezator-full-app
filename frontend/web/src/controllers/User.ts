@@ -1,22 +1,33 @@
 import { repo } from "../repositories/user";
-import { Blacklist, UserSuggestion } from "../models";
+import { Blacklist, DefaultSuggestion, UserSuggestion } from "../models";
 
 export const UserController = {
-  async addToUserBlacklist(blacklistItem: Blacklist, userId: string) {
+  async addToUserBlacklist(suggestion: DefaultSuggestion, userId: string) {
     try {
       if (!userId) return; //TODO: throw Error
 
-      return await repo.addToUserBlacklist(blacklistItem.id, userId);
+      const blacklistItem: Blacklist = {
+        id: suggestion.id,
+        name: suggestion.name,
+      };
+
+      console.log("blacklistItem", blacklistItem);
+
+      return await repo.addToUserBlacklist(blacklistItem, userId);
     } catch (error) {
       console.log("Error inserting blacklist", error); //TODO: throw Error
     }
   },
 
-  async removeFromUserBlacklist(suggestion: UserSuggestion, userId: string) {
+  async removeFromUserBlacklist(blacklistItemId: string, userId: string) {
     try {
+      console.log("HERE", blacklistItemId, userId);
+
       if (!userId) return; //TODO: throw Error
 
-      return await repo.removeFromUserBlacklist(suggestion.id, userId);
+      console.log(blacklistItemId, userId);
+
+      return await repo.removeFromUserBlacklist(blacklistItemId, userId);
     } catch (error) {
       console.log("Error removing suggestion", error);
     }

@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const dao = require("../dao/db");
 const db = require("../config/initialize-firebase").db;
+const { logger } = require("firebase-functions");
 
 const baseRef = db.collection("users");
 
@@ -17,13 +18,14 @@ module.exports = {
     return dao.getDocument(ref);
   },
 
-  create: async (uid, blacklistItemId) => {
+  create: async (uid, blacklistItem) => {
     const ref = baseRef.doc(uid).collection("blacklist");
 
-    const data = {};
-    data.createdAt = admin.firestore.FieldValue.serverTimestamp();
+    logger.log("ITEM", blacklistItem);
 
-    return dao.setDocument(ref, blacklistItemId, data);
+    blacklistItem.createdAt = admin.firestore.FieldValue.serverTimestamp();
+
+    return dao.setDocument(ref, blacklistItem.id, blacklistItem);
   },
 
   destroy: async (uid, blacklistItemId) => {

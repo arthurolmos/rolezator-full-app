@@ -4,6 +4,10 @@ import { AuthContext } from "../../contexts/AuthContext";
 import styled, { keyframes } from "styled-components";
 import { Question } from "../../models";
 
+interface OpenProps {
+  open: boolean;
+}
+
 const commonQuestions: Question[] = [
   {
     text: "O que vou fazer hoje?",
@@ -18,10 +22,6 @@ const commonQuestions: Question[] = [
     category: "action",
   },
 ];
-
-interface OpenProps {
-  open: boolean;
-}
 
 export default function SideMenu({
   handleQuestion,
@@ -38,6 +38,21 @@ export default function SideMenu({
     setOpen(false);
   }
 
+  const UserOption = () => {
+    return (
+      <OptionStyled
+        onClick={() =>
+          handleOption({
+            text: "Usar minhas sugestões!",
+            category: "user-suggestion",
+          })
+        }
+      >
+        Usar minhas sugestões!
+      </OptionStyled>
+    );
+  };
+
   return (
     <>
       <Container open={open}>
@@ -49,18 +64,7 @@ export default function SideMenu({
 
           <MenuContainer>
             <MenuOptions>
-              {user && (
-                <OptionStyled
-                  onClick={() =>
-                    handleOption({
-                      text: "Usar minhas sugestões!",
-                      category: "user-suggestion",
-                    })
-                  }
-                >
-                  Usar minhas sugestões!
-                </OptionStyled>
-              )}
+              {user && <UserOption />}
               {commonQuestions.map((question, index: number) => {
                 return (
                   <Option key={index} onClick={() => handleOption(question)}>
@@ -120,7 +124,7 @@ const Container = styled.div<OpenProps>`
   position: fixed;
   top: 0;
   left: 0;
-  transition: width 0.1s ease;
+  transition: width 0.3s ease;
   z-index: 999999;
   display: flex;
   box-sizing: border-box;
@@ -230,9 +234,11 @@ const Option = styled.div`
 
 const OptionStyled = styled.div`
   white-space: nowrap;
-  // transition: transform 0.5s ease;
+  transition: transform 0.3s ease;
   margin-bottom: 20px;
   cursor: pointer;
+  font-size: 22px;
+
   // text-shadow: 0px -2px 4px #fff, 0px -2px 10px #ff3, 0px -10px 20px #f90,
   //   0px -20px 40px #c33;
   box-sizing: border-box;

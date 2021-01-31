@@ -1,5 +1,4 @@
 const { functions } = require("../config/initialize-firebase");
-const { logger } = require("firebase-functions");
 const repo = require("../repositories/function");
 
 function deleteListener(collection) {
@@ -7,10 +6,13 @@ function deleteListener(collection) {
     .document(`/${collection}/{documentId}`)
     .onDelete((snap, context) => {
       const documentId = context.params.documentId;
-      logger.log(`MOVING ${documentId} to deleted!`);
 
       const document = snap.data();
+      //Cretes a backup copy of deleted register in $collection_deleted collection
       repo.moveToDelete(collection, documentId, document);
+
+      //Removes deletes registry from users' blacklist
+      repo.removeFromUserBlacklist(documentId);
     });
 }
 

@@ -4,13 +4,16 @@ import PlacesAutocomplete, {
   getLatLng,
 } from "react-places-autocomplete";
 import styled from "styled-components";
+import { Dots } from "react-activity";
+import "react-activity/dist/react-activity.css";
 
 interface InputProps {
   address: string;
   setAddress: (address: string) => void;
   handleSetSelection: (
-    address: string,
     placeId: string,
+    name: string,
+    address: string,
     latLng: { lat: number; lng: number }
   ) => void;
 }
@@ -20,16 +23,23 @@ export default function LocationSearchInput({
   setAddress,
   handleSetSelection,
 }: InputProps) {
-  const selectAddress = async (selection: string) => {
+  const selectAddress = async (
+    selection: string,
+    placeID: string,
+    object: any
+  ) => {
     try {
+      //Selection is the NAME + ADDRESS of the place
+      //Name is the NAME of the place
       setAddress(selection);
 
       const results = await geocodeByAddress(address);
 
+      const name = object.formattedSuggestion.mainText;
       const placeId = results[0].place_id;
       const latLng = await getLatLng(results[0]);
 
-      return handleSetSelection(selection, placeId, latLng);
+      return handleSetSelection(placeId, name, selection, latLng);
     } catch (error) {
       console.error("Error", error);
     }
@@ -58,7 +68,7 @@ export default function LocationSearchInput({
             <div
               style={{ width: "100%", overflowY: "auto", maxHeight: "300px" }}
             >
-              {loading && <div>Carregando...</div>}
+              {loading && <Dots />}
               {suggestions.map((suggestion: any, index: number) => {
                 const className = suggestion.active
                   ? "suggestion-item--active"

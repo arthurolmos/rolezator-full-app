@@ -1,4 +1,5 @@
 import api from "../api";
+import { Blacklist } from "../models";
 
 export const repo = {
   async getUser(userId: string) {
@@ -10,13 +11,11 @@ export const repo = {
     // return null;
   },
 
-  async addToUserBlacklist(blacklistItemId: string, userId: string) {
-    return await api.post(`/users/${userId}/blacklist`, {
-      blacklistItemId,
-    });
+  async addToUserBlacklist(blacklistItem: Blacklist, userId: string) {
+    return await api.post(`/users/${userId}/blacklist`, blacklistItem);
   },
 
-  async removeFromUserBlacklist(blacklistItemId: any, userId: string) {
+  async removeFromUserBlacklist(blacklistItemId: string, userId: string) {
     return await api.delete(`/users/${userId}/blacklist/${blacklistItemId}`);
   },
 

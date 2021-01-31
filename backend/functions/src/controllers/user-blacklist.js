@@ -16,11 +16,11 @@ module.exports = {
   create: async (req, res, next) => {
     try {
       const { uid } = req.params;
-      const { blacklistItemId } = req.body;
+      const blacklistItem = req.body;
 
-      await repo.create(uid, blacklistItemId);
+      await repo.create(uid, blacklistItem);
 
-      return res.status(201).end();
+      return res.status(201).send(blacklistItem);
     } catch (err) {
       next(err);
     }

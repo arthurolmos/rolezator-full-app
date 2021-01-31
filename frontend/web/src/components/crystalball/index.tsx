@@ -11,19 +11,28 @@ interface Props {
   action: () => void;
   question: Question;
   suggestion: UserSuggestion | Suggestion | null;
+  loading: boolean;
 }
 
-export default function Index({ active, action, question, suggestion }: Props) {
+export default function Index({
+  active,
+  action,
+  question,
+  suggestion,
+  loading,
+}: Props) {
   return (
     <Container>
-      <Overlayer
-        active={active}
-        onClick={() => {
-          if (!active) {
-            action();
-          }
-        }}
-      />
+      {!loading ? (
+        <Overlayer
+          active={active}
+          onClick={() => {
+            if (!active) {
+              action();
+            }
+          }}
+        />
+      ) : null}
       <Aura active={active} />
       <Image src="img/crystal-ball-crop.png" alt="crystal-ball" />
       <Texture />
