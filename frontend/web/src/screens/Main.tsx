@@ -46,7 +46,6 @@ export default function Main() {
     category: string
   ): (DefaultSuggestion | UserSuggestion)[] {
     let suggestions = allSuggestions;
-    console.log(category, suggestions);
 
     if (category === "action") suggestions = actionSuggestions;
     if (category === "eat") suggestions = eatSuggestions;

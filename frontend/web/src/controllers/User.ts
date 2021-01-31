@@ -11,8 +11,6 @@ export const UserController = {
         name: suggestion.name,
       };
 
-      console.log("blacklistItem", blacklistItem);
-
       return await repo.addToUserBlacklist(blacklistItem, userId);
     } catch (error) {
       console.log("Error inserting blacklist", error); //TODO: throw Error
@@ -21,12 +19,7 @@ export const UserController = {
 
   async removeFromUserBlacklist(blacklistItemId: string, userId: string) {
     try {
-      console.log("HERE", blacklistItemId, userId);
-
       if (!userId) return; //TODO: throw Error
-
-      console.log(blacklistItemId, userId);
-
       return await repo.removeFromUserBlacklist(blacklistItemId, userId);
     } catch (error) {
       console.log("Error removing suggestion", error);

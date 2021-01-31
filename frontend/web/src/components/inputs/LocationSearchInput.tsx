@@ -34,8 +34,6 @@ export default function LocationSearchInput({
       //Selection is the NAME + ADDRESS of the place
       //Name is the NAME of the place
       setAddress(address);
-      console.log(placeId);
-      console.log(suggestion);
 
       const results = await geocodeByAddress(address);
       const latLng = await getLatLng(results[0]);

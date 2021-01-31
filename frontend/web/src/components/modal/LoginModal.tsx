@@ -16,8 +16,6 @@ export default function LoginModal({ open, closeModal }: ModalProps) {
 
   async function handleAdminLogin() {
     const user = await adminLogin(email, password);
-
-    console.log("resp", user);
   }
 
   return (
