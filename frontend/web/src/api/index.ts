@@ -4,6 +4,12 @@ const api = axios.create({
   baseURL: "https://us-central1-rolezator-app.cloudfunctions.net/api",
 });
 
-// const api = axios.create({ baseURL: "http://localhost:3333" });
+// api.interceptors.request.use((req) => {
+//   // if (req.method === "post" || req.method === "POST") {
+//   console.log("REQ", req);
+//   // }
+
+//   return req;
+// });
 
 export default api;

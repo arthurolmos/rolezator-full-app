@@ -48,17 +48,9 @@ export const repo = {
     return suggestions;
   },
 
-  async getOnlyActionSuggestions() {
+  async getFilteredSuggestions(category: string) {
     const resp = await api.get("/suggestions", {
-      params: { category: "action" },
-    });
-
-    return resp.data;
-  },
-
-  async getOnlyEatSuggestions() {
-    const resp = await api.get("/suggestions", {
-      params: { category: "eat" },
+      params: { category },
     });
 
     return resp.data;
@@ -111,7 +103,7 @@ export const repo = {
         item.name,
         item.categories,
         item.hasURL,
-        item.plural ? item.plural : undefined
+        item.places ? item.places : undefined
       );
     }
 

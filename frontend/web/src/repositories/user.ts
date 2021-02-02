@@ -11,19 +11,39 @@ export const repo = {
     // return null;
   },
 
-  async addToUserBlacklist(blacklistItem: Blacklist, userId: string) {
-    return await api.post(`/users/${userId}/blacklist`, blacklistItem);
+  async addToUserBlacklist(
+    blacklistItem: Blacklist,
+    userId: string,
+    token: string
+  ) {
+    return await api.post(`/users/${userId}/blacklist`, blacklistItem, {
+      headers: { TokenId: token },
+    });
   },
 
-  async removeFromUserBlacklist(blacklistItemId: string, userId: string) {
-    return await api.delete(`/users/${userId}/blacklist/${blacklistItemId}`);
+  async removeFromUserBlacklist(
+    blacklistItemId: string,
+    userId: string,
+    token: string
+  ) {
+    return await api.delete(`/users/${userId}/blacklist/${blacklistItemId}`, {
+      headers: { TokenId: token },
+    });
   },
 
-  async addToUserSuggestions(item: any, userId: string) {
-    return await api.post(`/users/${userId}/suggestions`, item);
+  async addToUserSuggestions(item: any, userId: string, token: string) {
+    return await api.post(`/users/${userId}/suggestions`, item, {
+      headers: { TokenId: token },
+    });
   },
 
-  async removeFromUserSuggestions(suggestionId: string, userId: string) {
-    return await api.delete(`/users/${userId}/suggestions/${suggestionId}`);
+  async removeFromUserSuggestions(
+    suggestionId: string,
+    userId: string,
+    token: string
+  ) {
+    return await api.delete(`/users/${userId}/suggestions/${suggestionId}`, {
+      headers: { TokenId: token },
+    });
   },
 };

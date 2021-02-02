@@ -29,7 +29,7 @@ export default function UserMenu() {
       <MenuOptions>
         <Option onClick={toggleOpenSuggestionsModal}>Minhas Sugestões</Option>
         <Option onClick={toggleOpenBlacklistModal}>Minha Blacklist</Option>
-        <button onClick={() => signOut()}>Sair</button>
+        <LogoutButton onClick={() => signOut()}>Sair</LogoutButton>
       </MenuOptions>
 
       <SuggestionsModal
@@ -88,4 +88,20 @@ const Username = styled.h3`
   color: white;
   white-space: nowrap;
   box-sizing: border-box;
+`;
+
+const LogoutButton = styled.div`
+  background-color: purple;
+  border-radius: 15px;
+  padding: 5px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text: white;
+  cursor: pointer;
+  text-transform: uppercase;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;

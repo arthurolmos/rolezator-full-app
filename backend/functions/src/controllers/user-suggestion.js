@@ -1,4 +1,6 @@
 const repo = require("../repositories/user-suggestion");
+const Unauthorized = require("../errors/Unauthorized");
+const { logger } = require("firebase-functions");
 
 module.exports = {
   index: async (req, res, next) => {
@@ -28,7 +30,11 @@ module.exports = {
   create: async (req, res, next) => {
     try {
       const { uid } = req.params;
+      const tokenId = req.tokenId;
       const userSuggestion = req.body;
+
+      logger.log("TOKENS", tokenId, uid, tokenId === uid);
+      if (tokenId !== uid) throw new Unauthorized();
 
       await repo.create(uid, userSuggestion);
 
@@ -56,6 +62,10 @@ module.exports = {
   destroy: async (req, res, next) => {
     try {
       const { uid, suggestionId } = req.params;
+      const tokenId = req.tokenId;
+
+      logger.log("TOKENS", tokenId, uid, tokenId === uid);
+      if (tokenId !== uid) throw new Unauthorized();
 
       await repo.destroy(uid, suggestionId);
 

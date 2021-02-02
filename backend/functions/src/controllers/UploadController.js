@@ -38,27 +38,54 @@ module.exports = {
           res.end();
         })
         .on("data", (row) => {
-          functions.logger.log(row);
-
-          const data = {
-            id: row.name,
-            ...row,
-          };
-
-          rows.push(data);
+          rows.push(row);
         })
         .on("end", (rowCount) => {
           functions.logger.log(`Parsed ${rowCount} rows`);
-          functions.logger.log("ROWS", rows);
-
-          let batch = db.batch();
 
           fs.unlinkSync(upload);
 
-          res.status(200).json({ rows: rows });
+          insertIntoFirebase(rows);
+
+          res.status(200).json({ rows: rowCount });
         });
     });
 
     busboy.end(req.rawBody);
   },
 };
+
+function insertIntoFirebase(rows) {
+  functions.logger.log("ROWS", rows);
+  functions.logger.log("ROWS LENGTH", rows.length);
+
+  rows.forEach((row) => {
+    const categories = row.categories.replace(" ", "").split(",");
+    const name = row.name;
+    const places = row.places;
+    const hasURL = places ? true : false;
+
+    functions.logger.log(categories, name, places, hasURL);
+
+    const data = {
+      hasURL,
+      name,
+      categories,
+      places,
+    };
+
+    db.collection("suggestions")
+      .where("name", "==", name)
+      .get()
+      .then((snapshot) => {
+        functions.logger.log(`HERE`, snapshot.docs.length);
+
+        if (snapshot.docs.length === 0) {
+          db.collection("suggestions")
+            .add(data)
+            .then(() => functions.logger.log("DATA INSERTED!", data))
+            .catch((err) => functions.logger.log("ERROR INSERTING!", err));
+        }
+      });
+  });
+}

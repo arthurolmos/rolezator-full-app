@@ -10,4 +10,5 @@ module.exports = {
   UserSuggestionController,
   UserBlacklistController,
   SuggestionController,
+  AuthController,
 };

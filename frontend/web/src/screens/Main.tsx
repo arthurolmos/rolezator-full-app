@@ -22,7 +22,7 @@ export default function Main() {
 
   const defaulQuestion: Question = {
     text: "O qUe Vou faZeR HoJE??",
-    category: "any",
+    category: "action",
   };
 
   const [active, setActive] = React.useState(false);
@@ -38,6 +38,9 @@ export default function Main() {
   const [actionSuggestions, setActionSuggestions] = React.useState<
     Array<DefaultSuggestion>
   >([]);
+  const [goSuggestions, setGoSuggestions] = React.useState<
+    Array<DefaultSuggestion>
+  >([]);
   const [suggestion, setSuggestion] = React.useState<
     UserSuggestion | DefaultSuggestion | Suggestion | null
   >(null);
@@ -49,6 +52,7 @@ export default function Main() {
 
     if (category === "action") suggestions = actionSuggestions;
     if (category === "eat") suggestions = eatSuggestions;
+    if (category === "go") suggestions = goSuggestions;
     if (category === "user-suggestion") suggestions = userSuggestions;
 
     return suggestions;
@@ -76,7 +80,8 @@ export default function Main() {
   async function handleAddToBlacklist() {
     await UserController.addToUserBlacklist(
       suggestion as DefaultSuggestion,
-      user.uid
+      user.uid,
+      user.token
     );
 
     setActive(false);
@@ -114,7 +119,7 @@ export default function Main() {
           target="_blank"
           rel="noreferrer"
         >
-          Descubra {suggestion.plural} próximos da sua área!
+          Descubra {suggestion.places} próximos da sua área!
         </a>
       </Text>
     );
@@ -130,20 +135,35 @@ export default function Main() {
       setLoading(false);
     }
 
-    async function getEatSuggestion() {
+    async function getEatSuggestions() {
       const suggestions = await SuggestionController.getOnlyEatSuggestions();
+      // console.log("eat", suggestions);
       if (suggestions) setEatSuggestions(suggestions);
     }
 
-    async function getActionSuggestion() {
+    async function getActionSuggestions() {
       const suggestions = await SuggestionController.getOnlyActionSuggestions();
+      // console.log("action", suggestions);
+
       if (suggestions) setActionSuggestions(suggestions);
     }
 
-    function load() {
-      getAllSuggestions();
-      getEatSuggestion();
-      getActionSuggestion();
+    async function getGoSuggestions() {
+      const suggestions = await SuggestionController.getOnlyGoSuggestions();
+      // console.log("go", suggestions);
+
+      if (suggestions) setGoSuggestions(suggestions);
+    }
+
+    async function load() {
+      setLoading(true);
+
+      // getAllSuggestions();
+      await getEatSuggestions();
+      await getActionSuggestions();
+      await getGoSuggestions();
+
+      setLoading(false);
     }
 
     load();

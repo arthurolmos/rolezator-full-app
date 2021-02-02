@@ -2,8 +2,11 @@ const NotFound = require("../errors/NotFound");
 const Unauthorized = require("../errors/Unauthorized");
 const FirebaseError = require("../errors/FirebaseError");
 const ValueNotSupported = require("../errors/ValueNotSupported");
+const { logger } = require("firebase-functions");
 
 module.exports = (err, req, res, next) => {
+  logger.log("ERROR!", err);
+
   if (err instanceof NotFound) {
     return res.status(404).send(err.message);
   }

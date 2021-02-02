@@ -15,7 +15,11 @@ export default function BlacklistItem({ item }: { item: Blacklist }) {
     try {
       setLoading(true);
 
-      await UserController.removeFromUserBlacklist(item.id, user.uid);
+      await UserController.removeFromUserBlacklist(
+        item.id,
+        user.uid,
+        user.token
+      );
 
       setLoading(false);
     } catch (err) {

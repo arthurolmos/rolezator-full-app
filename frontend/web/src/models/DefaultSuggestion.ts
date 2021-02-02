@@ -1,12 +1,13 @@
 import { Suggestion } from "./Suggestion";
+import { Categories } from "./Categories";
 
 export class DefaultSuggestion extends Suggestion {
   constructor(
     readonly id: string,
     readonly name: string,
-    readonly categories: string[],
+    readonly categories: Categories[],
     readonly hasURL: boolean,
-    readonly plural?: string
+    readonly places?: string
   ) {
     super(id, name);
   }

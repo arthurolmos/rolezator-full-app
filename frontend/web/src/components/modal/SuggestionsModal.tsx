@@ -66,7 +66,11 @@ export default function SuggestionsModal({ open, closeModal }: ModalProps) {
         selection.coordinates
       );
 
-      await UserController.addToUserSuggestions(suggestion, user.uid);
+      await UserController.addToUserSuggestions(
+        suggestion,
+        user.uid,
+        user.token
+      );
       setAddress("");
       setSelection(null);
 

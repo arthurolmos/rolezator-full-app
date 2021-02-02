@@ -12,7 +12,7 @@ export const SuggestionController = {
 
   async getOnlyActionSuggestions() {
     try {
-      return await repo.getOnlyActionSuggestions();
+      return await repo.getFilteredSuggestions("action");
     } catch (err) {
       console.log(err);
     }
@@ -20,7 +20,15 @@ export const SuggestionController = {
 
   async getOnlyEatSuggestions() {
     try {
-      return await repo.getOnlyEatSuggestions();
+      return await repo.getFilteredSuggestions("eat");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async getOnlyGoSuggestions() {
+    try {
+      return await repo.getFilteredSuggestions("go");
     } catch (err) {
       console.log(err);
     }

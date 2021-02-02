@@ -11,7 +11,7 @@ interface OpenProps {
 const commonQuestions: Question[] = [
   {
     text: "O que vou fazer hoje?",
-    category: "any",
+    category: "action",
   },
   {
     text: "O que vou comer hoje?",
@@ -19,7 +19,7 @@ const commonQuestions: Question[] = [
   },
   {
     text: "Para onde irei hoje?",
-    category: "action",
+    category: "go",
   },
 ];
 
@@ -104,10 +104,11 @@ const GoogleButton = styled.div`
   cursor: pointer;
 
   &:hover {
-    background: url("/assets/btn_google_signin_dark_focus_web@2x.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    // background: url("/assets/btn_google_signin_dark_focus_web@2x.png");
+    // background-position: center;
+    // background-repeat: no-repeat;
+    // background-size: cover;
+    opacity: 0.8;
   }
 
   &:active {

@@ -26,7 +26,11 @@ export default function SuggestionItem({ item }: { item: UserSuggestion }) {
     try {
       setLoading(true);
 
-      await UserController.removeFromUserSuggestions(item, user.uid);
+      await UserController.removeFromUserSuggestions(
+        item,
+        user.uid,
+        user.token
+      );
 
       setLoading(false);
     } catch (err) {

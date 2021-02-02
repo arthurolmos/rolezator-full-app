@@ -1,5 +1,6 @@
 import React from "react";
 import firebase from "firebase";
+import { User } from "../models";
 
 export const AuthContext = React.createContext();
 
@@ -11,6 +12,9 @@ export function AuthProvider({ children }) {
   const [user, setUser] = React.useState(null);
   const [userSuggestions, setUserSuggestions] = React.useState([]);
   const [userBlacklist, setUserBlacklist] = React.useState([]);
+
+  const blacklistUnsubscribe = React.useRef();
+  const suggestionsUnsubscribe = React.useRef();
 
   React.useEffect(() => {
     function addListener(uid, collection, setter) {
@@ -32,31 +36,45 @@ export function AuthProvider({ children }) {
     }
 
     const unsubscribe = auth.onAuthStateChanged(function (user) {
-      let blacklistUnsubscribe = null;
-      let suggestionsUnsubscribe = null;
-
       if (user) {
+        const uid = user.uid;
+
         if (!user.admin) {
-          setUser(user);
+          auth.currentUser
+            .getIdToken(/* forceRefresh */ true)
+            .then(function (idToken) {
+              const fUser = new User(
+                uid,
+                user.displayName,
+                user.email,
+                idToken
+              );
 
-          const uid = user.uid;
+              // console.log(fUser);
 
-          blacklistUnsubscribe = addListener(
+              setUser(fUser);
+            })
+            .catch(function (error) {
+              // Handle error
+              console.log("ERROR", error);
+            });
+
+          blacklistUnsubscribe.current = addListener(
             uid,
             "blacklist",
             setUserBlacklist
           );
-          suggestionsUnsubscribe = addListener(
+          suggestionsUnsubscribe.current = addListener(
             uid,
             "suggestions",
             setUserSuggestions
           );
         }
       } else {
-        setUser(null);
+        blacklistUnsubscribe.current && blacklistUnsubscribe.current();
+        suggestionsUnsubscribe.current && suggestionsUnsubscribe.current();
 
-        blacklistUnsubscribe && blacklistUnsubscribe();
-        suggestionsUnsubscribe && suggestionsUnsubscribe();
+        setUser(null);
       }
     });
 

@@ -4,3 +4,4 @@ export * from "./DefaultSuggestion";
 export * from "./UserSuggestion";
 export * from "./Suggestion";
 export * from "./User";
+export * from "./Categories";

@@ -1,3 +1,5 @@
+const { logger } = require("firebase-functions");
+const Unauthorized = require("../errors/Unauthorized");
 const repo = require("../repositories/user-blacklist");
 
 module.exports = {
@@ -16,7 +18,11 @@ module.exports = {
   create: async (req, res, next) => {
     try {
       const { uid } = req.params;
+      const tokenId = req.tokenId;
       const blacklistItem = req.body;
+
+      logger.log("TOKENS", tokenId, uid, tokenId === uid);
+      if (tokenId !== uid) throw new Unauthorized();
 
       await repo.create(uid, blacklistItem);
 
@@ -29,6 +35,10 @@ module.exports = {
   destroy: async (req, res, next) => {
     try {
       const { uid, blacklistItemId } = req.params;
+      const tokenId = req.tokenId;
+
+      logger.log("TOKENS", tokenId, uid, tokenId === uid);
+      if (tokenId !== uid) throw new Unauthorized();
 
       await repo.destroy(uid, blacklistItemId);
 

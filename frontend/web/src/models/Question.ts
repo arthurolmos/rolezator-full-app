@@ -1,5 +1,5 @@
-type Category = "any" | "eat" | "action" | "user-suggestion";
+import { Categories } from "./Categories";
 
 export class Question {
-  constructor(readonly text: string, readonly category: Category) {}
+  constructor(readonly text: string, readonly category: Categories) {}
 }
