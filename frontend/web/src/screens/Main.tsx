@@ -110,7 +110,7 @@ export default function Main() {
   };
 
   const SuggestionURL = ({ suggestion }: { suggestion: DefaultSuggestion }) => {
-    const url = suggestion.name.split(" ").join("+");
+    const url = suggestion.places && suggestion.places.split(" ").join("+");
 
     return (
       <Text active={active}>
