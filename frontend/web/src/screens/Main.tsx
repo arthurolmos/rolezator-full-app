@@ -126,14 +126,14 @@ export default function Main() {
   };
 
   React.useEffect(() => {
-    async function getAllSuggestions() {
-      setLoading(true);
+    // async function getAllSuggestions() {
+    //   setLoading(true);
 
-      const suggestions = await SuggestionController.getAllSuggestions();
-      if (suggestions) setAllSuggestions(suggestions);
+    //   const suggestions = await SuggestionController.getAllSuggestions();
+    //   if (suggestions) setAllSuggestions(suggestions);
 
-      setLoading(false);
-    }
+    //   setLoading(false);
+    // }
 
     async function getEatSuggestions() {
       const suggestions = await SuggestionController.getOnlyEatSuggestions();
