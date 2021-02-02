@@ -29,9 +29,9 @@ export default function Main() {
   const [loading, setLoading] = React.useState(false);
 
   const [question, setQuestion] = React.useState(defaulQuestion);
-  const [allSuggestions, setAllSuggestions] = React.useState<
-    Array<DefaultSuggestion>
-  >([]);
+  // const [allSuggestions, setAllSuggestions] = React.useState<
+  //   Array<DefaultSuggestion>
+  // >([]);
   const [eatSuggestions, setEatSuggestions] = React.useState<
     Array<DefaultSuggestion>
   >([]);
@@ -48,7 +48,7 @@ export default function Main() {
   function getSuggestionsByCategory(
     category: string
   ): (DefaultSuggestion | UserSuggestion)[] {
-    let suggestions = allSuggestions;
+    let suggestions = actionSuggestions;
 
     if (category === "action") suggestions = actionSuggestions;
     if (category === "eat") suggestions = eatSuggestions;
